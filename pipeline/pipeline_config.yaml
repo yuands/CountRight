@@ -1,0 +1,53 @@
+pipeline:
+  output_path: outputs/
+  device: cuda
+  phase1_type: dbscan_mask
+  phase2_type: ours_counting_loss
+mask_creation:
+  dbscan_mask:
+    gradual_padding: true
+    unet_checkpoint_path: pipeline/mask_extraction/spatial_prior_predictor_weights/spatial_prior_predictor_checkpoint.pth
+  random_mask:
+    shape: circle
+counting_model:
+  use_ddpm: true
+  num_inference_steps: 50
+  attention_store:
+    cross_attention_dim: 32
+    save_timesteps:
+    - 1
+    - 5
+    - 10
+    - 15
+    - 20
+    - 25
+    - 30
+    - 40
+    - 49
+  self_attention_masking:
+    start_step: 0
+    end_step: 10
+    enable: true
+  loss:
+    sg_t_start: 0
+    sg_t_end: 25
+    scale_factor: 110
+    scale_ranges:
+    - - 1
+      - 0.5
+      - 50
+    thresholds:
+      0: 0.1
+      10: 0.1
+      20: 0.3
+    max_refinement_steps: 40
+    cross_attention_agg_layers:
+    - up
+    - mid
+    - down
+    cross_attn_loss_type: gaussian_dice
+    cross_loss_weight: 1
+    cross_attn_bce_pos_wt: 10
+    cross_loss_step_range:
+    - 0
+    - 50

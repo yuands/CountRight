@@ -1,0 +1,35 @@
+# 大型模型权重（超过 GitHub 100MB 限制）
+*.pth
+*.pt
+*.bin
+*.onnx
+*.safetensors
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# 运行时输出
+outputs/
+eval_output/
+output_*/
+
+# 虚拟环境
+.venv/
+venv/
+env/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# Jupyter
+.ipynb_checkpoints/
